@@ -107,7 +107,10 @@
 		}
 	};
 
-
+	/**
+	*
+	* Creating a unique Random number generator
+	*/
 	Store.prototype.getRandomUniqueId = function(){
 		var data = JSON.parse(localStorage[this._dbName]);
 		var todos = data.todos;
