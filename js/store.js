@@ -80,13 +80,7 @@
 
 		callback = callback || function () {};
 
-		// Generate an ID
-	    var newId = ""; 
-	    var charset = "0123456789";
-
-        for (var i = 0; i < 6; i++) {
-     		newId += charset.charAt(Math.floor(Math.random() * charset.length));
-		}
+		var newId = this.getRandomUniqueId();
 
 		// If an ID was actually given, find the item and update each property
 		if (id) {
@@ -112,6 +106,28 @@
 			callback.call(this, [updateData]);
 		}
 	};
+
+
+	Store.prototype.getRandomUniqueId = function(){
+		var data = JSON.parse(localStorage[this._dbName]);
+		var todos = data.todos;
+
+		// Generate an ID
+		var newId = ""; 
+		var charset = "0123456789";
+
+		for (var i = 0; i < 6; i++) {
+			newId += charset.charAt(Math.floor(Math.random() * charset.length));
+		}
+
+		todos.forEach(function(todo){
+			if(todo.id == parseInt(newId)){
+				return this.getRandomUniqueId();
+			}
+		}.bind(this));
+		return newId;
+	};
+
 
 	/**
 	 * Will remove an item from the Store based on its ID
